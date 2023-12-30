@@ -17,7 +17,7 @@ const Navbar = () => {
         />
         <ul className="flex-center gap-x-3 max-md:hidden md:gap-x-10">
           <li className="body-text text-gradient_blue-purple !font-bold">
-            <Link href="/">Next.js 13.4 Course</Link>
+            <Link href="/">Next Optimization Course</Link>
           </li>
           <li className="body-text !font-normal">
             <Link href="/">Masterclass</Link>
