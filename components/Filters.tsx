@@ -1,13 +1,34 @@
 "use client";
+import { formUrlQuery } from "@/sanity/utils";
+import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const links = ["All", "Next 13", "Frontend", "Backend", "FullStack"];
 
 const Filters = () => {
   const [active, setActive] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const handleFilter = (link: string) => {
-    setActive(link);
+    let newUrl = "";
+
+    if (active === link) {
+      setActive("");
+      newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        keysToRemove: ["category"],
+      });
+    } else {
+      setActive(link);
+      newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        key: "category",
+        value: link.toLowerCase(),
+      });
+    }
+
+    router.push(newUrl, { scroll: false });
   };
 
   return (

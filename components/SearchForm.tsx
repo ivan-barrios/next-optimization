@@ -1,10 +1,35 @@
 "use client";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { formUrlQuery } from "@/sanity/utils";
 
 const SearchForm = () => {
   const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  //The point of this useEffect is to not make a request to the server every time the user types a letter. Instead, we wait 300ms after the user stops typing to make the request.
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      let newUrl = "";
+      if (search) {
+        newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          key: "query",
+          value: search,
+        });
+      } else {
+        newUrl = formUrlQuery({
+          params: searchParams.toString(),
+          keysToRemove: ["query"],
+        });
+      }
+      router.push(newUrl, { scroll: false });
+    }, 300);
+    return () => clearTimeout(delayDebounceFn);
+  }, [search]);
 
   return (
     <form className="flex-center mx-auto mt-10 w-full sm:-mt-10 sm:px-5">

@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Next Optimization",
   description: "Learn how to optimize your Next.js app",
+  other: {
+    "theme-color": "#0d1117",
+    "color-scheme": "dark only",
+  },
 };
 
 export default function RootLayout({
